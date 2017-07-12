@@ -1,4 +1,6 @@
 {
     "name": "test2",
-    "version":"master"
+    "require": {
+       "package": "master"
+    }
 }
