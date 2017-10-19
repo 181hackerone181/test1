@@ -1,6 +1,0 @@
-{
-    "name": "test2",
-    "require": {
-       "package": "master"
-    }
-}
