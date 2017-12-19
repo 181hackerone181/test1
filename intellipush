@@ -1,0 +1,34 @@
+#!/bin/bash
+if [ $# -lt 4 ]
+  then
+    echo "Add arguments :
+ \$1 -> master branch name 
+ \$2 -> new branch name 
+ \$3 -> folders to be ignored (separated by ,) 
+ \$4 -> git remote alias"
+    exit 1
+fi
+
+git checkout $1
+echo "--> Checking out to $1\n"
+git checkout -b $2
+echo "--> Creating new branch - $2\n"
+
+IFS=,
+directories=($3)
+for key in "${!directories[@]}";
+  do
+    echo "${directories[$key]}/" >> .gitignore
+    git rm -r ${directories[$key]} --cached
+    echo "--> Ignoring folder ${directories[$key]}\n"
+done
+
+git add .
+git commit -a -m'Add temp ignore'
+echo "--> Creating temporary commit\n"
+
+git push $4
+echo "--> Pushing finalized branch to $4\n"
+
+git reset --hard @{1}
+echo "--> Reverting all changes\n"
